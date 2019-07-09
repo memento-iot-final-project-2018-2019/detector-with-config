@@ -243,7 +243,7 @@ int main(int argc, char* argv[])
             //reset led to off state
             led = LED_OFF;
 
-            while(doorSensor.read() == 0) {
+            while(doorSensor.read() == 1) {
                 wait(0.5);
             }
         }
