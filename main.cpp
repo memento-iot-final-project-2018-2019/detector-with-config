@@ -33,7 +33,7 @@
 #define LED_ON  MBED_CONF_APP_LED_ON
 #define LED_OFF MBED_CONF_APP_LED_OFF
 
-static volatile bool isPublish = false;
+static volatile bool stopAlarm = false;
 
 /* Flag to be set when received a message from the server. */
 static volatile bool isMessageArrived = false;
@@ -67,9 +67,9 @@ Thread thread1;
 /*
  * Callback function called when the button1 is clicked.
  */
-/*void btn1_rise_handler() {
-    isPublish = true;
-}*/
+void btn1_rise_handler() {
+    stopAlarm = true;
+}
 
 
 int main(int argc, char* argv[])
@@ -178,9 +178,9 @@ int main(int argc, char* argv[])
     printf("Client has subscribed a topic \"%s\".\r\n", MQTT_TOPIC_SUB);
     printf("\r\n");
 
-    /*// Enable button 1
+    // Enable button 1
     InterruptIn btn1 = InterruptIn(MBED_CONF_APP_USER_BUTTON);
-    btn1.rise(btn1_rise_handler);*/
+    btn1.rise(btn1_rise_handler);
 
     // Turn off the LED to let users know connection process done.
     led = LED_OFF;
@@ -236,12 +236,16 @@ int main(int argc, char* argv[])
             delete[] buf;
 
             //check nfc for shutting off the alarm
-            /*while(){
-
+            while(!stopAlarm) {
+                wait(0.5);
             }
 
             //reset led to off state
-            led = LED_OFF;*/
+            led = LED_OFF;
+
+            while(doorSensor.read() == 0) {
+                wait(0.5);
+            }
         }
     }
 
