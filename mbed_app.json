@@ -27,7 +27,7 @@
         "*": {
             "target.network-default-interface-type": "ETHERNET",
             "mbed-trace.enable": null,
-            "platform.stdio-baud-rate": 115200,
+            "platform.stdio-baud-rate": 9600,
             "platform.stdio-convert-newlines": false
            },
         "K64F": {
