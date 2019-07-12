@@ -54,7 +54,7 @@ void btn1_rise_handler() {
 
 int main(int argc, char* argv[])
 {
-     RfChip.PCD_Init();
+    RfChip.PCD_Init();
         
     const float version = 0.9;
     bool isSubscribed = false;
@@ -205,7 +205,7 @@ int main(int argc, char* argv[])
             delete[] buf;
             
             
-            //check nfc for shutting off the alarm
+            //check rfid for shutting off the alarm
             pc.printf("Wait alert to stop\r\n");
             while(! (RfChip.PICC_IsNewCardPresent() || stopAlarm)) {
                 wait(0.5);
