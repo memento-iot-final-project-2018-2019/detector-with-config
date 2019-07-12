@@ -204,21 +204,19 @@ int main(int argc, char* argv[])
             pc.printf("Message published.\r\n");
             delete[] buf;
             
-            
-            //check rfid for shutting off the alarm
+            // Wait for the RFID tag to stop the alert
             pc.printf("Wait alert to stop\r\n");
             while(! (RfChip.PICC_IsNewCardPresent() || stopAlarm)) {
                 wait(0.5);
             }
             pc.printf("Alert stopped\r\n");
 
-            //reset led to off state and stopAlarm to false
+            // Reset led to off state and stopAlarm to false
             led = 0;
             stopAlarm = false;
             
-            //Wait until door is closed before restarting alarm, once it's shutted off
-            //the main cycle can restart checking door sensor again.
-            pc.printf("Wait door to be closed again\r\n");
+            // Wait until the door is closed before restarting the cycle
+            pc.printf("Wait for door to be closed again\r\n");
             while(doorSensor.read() == 1) {
                 wait(0.5);
             }
