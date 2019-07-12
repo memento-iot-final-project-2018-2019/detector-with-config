@@ -13,7 +13,7 @@
  * Contributors:
  *    Ian Craggs - initial API and implementation and/or initial documentation
  *    Ian Craggs - make sure QoS2 processing works, and add device headers
- *    Gabriele Cervelli - Door's magnetic sensor
+ *    Gabriele Cervelli - Door's magnetic sensor 
  *    Giovanni De Luca - RFID handling
  *******************************************************************************/
 
@@ -26,6 +26,16 @@
 #include "MQTT_server_setting.h"
 #include "mbed_events.h"
 #include "mbedtls/error.h"
+#include "MFRC522.h"
+ 
+//Pin for MFRC522 reset (pick another D pin if you need D5)
+#define MF_RESET D5
+
+//Serial out for debug
+Serial pc(SERIAL_TX, SERIAL_RX);
+
+//Construct MFRC Object
+MFRC522    RfChip   (SPI_MOSI, SPI_MISO, SPI_SCK, SPI_CS, MF_RESET);
 
 static volatile bool stopAlarm = false;
 
@@ -44,15 +54,17 @@ void btn1_rise_handler() {
 
 int main(int argc, char* argv[])
 {
+     RfChip.PCD_Init();
+        
     const float version = 0.9;
     bool isSubscribed = false;
-
-
+    
+    
     //INIT PINs and LED
     DigitalIn  doorSensor(D1);
     DigitalOut led(LED2);
     led = 0;
-
+    
     //Check on magnetic sensor
     if(doorSensor.is_connected()) {
         pc.printf("Door sensor pin is connected and initialized! \r\n");
@@ -60,7 +72,7 @@ int main(int argc, char* argv[])
     //Set magnetic sensor in PullUp mode
     doorSensor.mode(PullUp);
     pc.printf("Pull up mode setted\n");
-
+    
     NetworkInterface* network = NULL;
     MQTTNetwork* mqttNetwork = NULL;
     MQTT::Client<MQTTNetwork, Countdown>* mqttClient = NULL;
@@ -86,8 +98,8 @@ int main(int argc, char* argv[])
     }
     pc.printf("Network interface opened successfully.\r\n");
     pc.printf("\r\n");
-
-
+    
+    
 
     // sync the real time clock (RTC)
     NTPClient ntp(network);
@@ -95,8 +107,8 @@ int main(int argc, char* argv[])
     time_t now = ntp.get_timestamp();
     set_time(now);
     pc.printf("Time is now %s", ctime(&now));
-
-
+    
+        
 
     pc.printf("Connecting to host %s:%d ...\r\n", MQTT_SERVER_HOST_NAME, MQTT_SERVER_PORT);
     {
@@ -145,8 +157,8 @@ int main(int argc, char* argv[])
     // Enable button 1 on the board as emergency alert shutdown
     InterruptIn btn1 = InterruptIn(MBED_CONF_APP_USER_BUTTON);
     btn1.rise(btn1_rise_handler);
-
-
+    
+    
 
     while(1) {
         /* Check connection */
@@ -191,11 +203,11 @@ int main(int argc, char* argv[])
             }
             pc.printf("Message published.\r\n");
             delete[] buf;
-
-
+            
+            
             //check nfc for shutting off the alarm
             pc.printf("Wait alert to stop\n");
-            while(! stopAlarm) {
+            while(! (RfChip.PICC_IsNewCardPresent() || stopAlarm)) {
                 wait(0.5);
             }
             pc.printf("Alert stopped\n");
@@ -203,7 +215,7 @@ int main(int argc, char* argv[])
             //reset led to off state and stopAlarm to false
             led = 0;
             stopAlarm = false;
-
+            
             //Wait until door is closed before restarting alarm, once it's shutted off
             //the main cycle can restart checking door sensor again.
             pc.printf("Wait door to be closed again\n");
