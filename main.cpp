@@ -71,7 +71,7 @@ int main(int argc, char* argv[])
     }
     //Set magnetic sensor in PullUp mode
     doorSensor.mode(PullUp);
-    pc.printf("Pull up mode setted\n");
+    pc.printf("Pull up mode setted\r\n");
     
     NetworkInterface* network = NULL;
     MQTTNetwork* mqttNetwork = NULL;
@@ -85,14 +85,14 @@ int main(int argc, char* argv[])
     {
         network = NetworkInterface::get_default_instance();
         if (!network) {
-            pc.printf("Error! No network inteface found.\n");
+            pc.printf("Error! No network inteface found.\r\n");
             return -1;
         }
 
-        pc.printf("Connecting to network\n");
+        pc.printf("Connecting to network\r\n");
         nsapi_size_or_error_t ret = network->connect();
         if (ret) {
-            pc.printf("Unable to connect! returned %d\n", ret);
+            pc.printf("Unable to connect! returned %d\r\n", ret);
             return -1;
         }
     }
@@ -206,11 +206,11 @@ int main(int argc, char* argv[])
             
             
             //check nfc for shutting off the alarm
-            pc.printf("Wait alert to stop\n");
+            pc.printf("Wait alert to stop\r\n");
             while(! (RfChip.PICC_IsNewCardPresent() || stopAlarm)) {
                 wait(0.5);
             }
-            pc.printf("Alert stopped\n");
+            pc.printf("Alert stopped\r\n");
 
             //reset led to off state and stopAlarm to false
             led = 0;
@@ -218,7 +218,7 @@ int main(int argc, char* argv[])
             
             //Wait until door is closed before restarting alarm, once it's shutted off
             //the main cycle can restart checking door sensor again.
-            pc.printf("Wait door to be closed again\n");
+            pc.printf("Wait door to be closed again\r\n");
             while(doorSensor.read() == 1) {
                 wait(0.5);
             }
