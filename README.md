@@ -1,16 +1,13 @@
 # **detector**
 
 This component allows [DISCO-L475VG-IOT01A](https://os.mbed.com/platforms/ST-Discovery-L475E-IOT01A/#board-pinout)  board running [mbedOS](https://www.mbed.com/en/) to enstablish an **MQTT** connection to your [AWS IoT Core](https://aws.amazon.com/iot-core/) and to publish data every time a simple **magnetic sensor** detects high impedence case on the circuit.  
-The goal is reached by checking the **integer value returned by the sensor** connected to a **digital pin** (in our case the D1 pin, we could obviously use any of the board's digital pins to do that). Also **a led is turned on**, it could be replaced by a sound alert, **every time the door is open**.
+The goal is reached by checking the **integer value returned by the sensor** connected to a **digital pin** (in our case the D1 pin, we could obviously use any of the board's digital pins to do that). Also **a led is turned on**, it could be replaced by a sound alert, **every time the door is open**. The led is turned off as soon as an **RFID tag** is brought **close to the RFID reader**.
 
-//COMPLETE WITH RFID/NFC INTRO
-
-
-## Usage instructions
+## Build instructions
 
 Our supported **build platform** is [mbedOS online compiler](https://ide.mbed.com/compiler).
 
-For detailed instructions on **how to setup the board for AWS IoT Core** follow this [link](https://os.mbed.com/users/coisme/notebook/aws-iot-from-mbed-os-device/).
+For detailed instructions on **how to setup the board for AWS IoT Core** follow this [link](https://os.mbed.com/users/coisme/notebook/aws-iot-from-mbed-os-device/). For a complete guide on how to set up the whole key-reminding system, check out our [blogpost](https://www.hackster.io/memento-team/memento-07ff93).
 That also includes instructions for the board Wi-Fi module setup.
 
 The custom message that will be pushed to AWS endpoint has to be specified here between the two double apices in `main.cpp` file.
