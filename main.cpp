@@ -59,7 +59,6 @@ int main(int argc, char* argv[])
     const float version = 0.9;
     bool isSubscribed = false;
     
-    
     //INIT PINs and LED
     DigitalIn  doorSensor(D1);
     DigitalOut led(LED2);
@@ -76,7 +75,6 @@ int main(int argc, char* argv[])
     NetworkInterface* network = NULL;
     MQTTNetwork* mqttNetwork = NULL;
     MQTT::Client<MQTTNetwork, Countdown>* mqttClient = NULL;
-
 
     pc.printf("HelloMQTT: version is %.2f\r\n", version);
     pc.printf("\r\n");
@@ -98,8 +96,6 @@ int main(int argc, char* argv[])
     }
     pc.printf("Network interface opened successfully.\r\n");
     pc.printf("\r\n");
-    
-    
 
     // sync the real time clock (RTC)
     NTPClient ntp(network);
