@@ -21,6 +21,14 @@
         "user-button": {
             "help": "Push Button to send a packet.",
             "required": true
+        },
+        "wifi-ssid": {
+            "help": "WiFi SSID",
+            "value": "\"memento\""
+        },
+        "wifi-password": {
+            "help": "WiFi Password",
+            "value": "\"123456789\""
         }
     },
     "target_overrides": {
@@ -42,9 +50,6 @@
             "led-off": 1,
             "user-button": "USER_BUTTON",
             "target.network-default-interface-type" : "WIFI",
-            "nsapi.default-wifi-security": "WPA_WPA2",
-            "nsapi.default-wifi-ssid": "\"SSID\"",
-            "nsapi.default-wifi-password": "\"PASSWORD\""
         },
         "RZ_A1H": {
             "led-pin": "LED3",
