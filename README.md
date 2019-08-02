@@ -10,8 +10,12 @@ Our supported **build platform** is [mbedOS online compiler](https://ide.mbed.co
 For detailed instructions on **how to setup the board for AWS IoT Core** follow this [link](https://os.mbed.com/users/coisme/notebook/aws-iot-from-mbed-os-device/). For a complete guide on how to set up the whole key-reminding system, check out our [blogpost](https://www.hackster.io/memento-team/memento-07ff93).
 That also includes instructions for the board Wi-Fi module setup.
 
-The custom message that will be pushed to AWS endpoint has to be specified here between the two double apices in `main.cpp` file.
+## First boot configuration (also valid for re-configuration)
 
-`char payload[] = "{ \"payload\": TWITTER-ID-GOES-HERE }";`
-
-In our case, it's a `JSON` message containing a **field named payload** with a **Twitter ID valued** associated.
+- Once firmware is flashed into the board, **prepare a Wi-Fi Hotspot device** configured as **ssid = memento** and **pswd = 123456789**.
+- Now boot the board, if it's **first boot** it will run automatically the **HTTP** server.
+-**If it's not,** **press blue button whitin 3 seconds from boot**, then **reboot** the board with **black button**.
+- Wait some seconds, so that the board can connect to the Hotspot and setup the http server.
+- **Identify** the **board local IP address** then within a Web Browser, **insert ip into address bar** and press enter.
+- **Fill the form** with your real **Wi-fi credentials** and your **Twitter ID**, **deliver the form**.
+- **Reboot the board.**
