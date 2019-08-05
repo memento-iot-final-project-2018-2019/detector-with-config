@@ -16,7 +16,7 @@ That also includes instructions for the board Wi-Fi module setup.
 
 - Once the firmware is flashed to the board, **set up a Wi-Fi Hotspot** with **ssid = memento** and **pswd = 123456789**.
 - Now boot the board, if it's the **first boot** it will automatically run the **HTTP** server.
--**If it's not,** **press the blue button within 3 seconds from boot**, then **reboot** the board with the **black button**.
+- **If it's not,** **press the blue button within 3 seconds from boot**, then **reboot** the board with the **black button**.
 - Wait some seconds, so that the board can connect to the Hotspot and setup the http server.
 - **Identify** the **local IP address of the board** (you can find it in the admin panel of the board), then, on any Web Browser, **insert the IP address in the address bar** and press enter.
 - **Fill the form** with your real **Wi-fi credentials** and your **Twitter ID**, and **deliver the form**.
